@@ -2,12 +2,12 @@
 using BepInEx.Logging;
 
 // TODO: Change 'YourName' to your name. 
-namespace YourName
+namespace MuzzleScripts
 {
     // TODO: Change 'YourPlugin' to the name of your plugin
     [BepInAutoPlugin]
     [BepInProcess("h3vr.exe")]
-    public partial class YourPlugin : BaseUnityPlugin
+    public partial class MuzzleScripts : BaseUnityPlugin
     {
         /* == Quick Start == 
          * Your plugin class is a Unity MonoBehaviour that gets added to a global game object when the game starts.
