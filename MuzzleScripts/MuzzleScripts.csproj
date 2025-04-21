@@ -52,9 +52,39 @@
         <PackageReference Include="H3VR.GameLibs" Version="0.114.0" />
     </ItemGroup>
     <ItemGroup>
-      <Reference Include="MMHOOK_Assembly-CSharp">
-        <HintPath>C:\Users\guy12\AppData\Roaming\r2modmanPlus-local\H3VR\profiles\Multiplayer\BepInEx\plugins\MMHOOK\MMHOOK_Assembly-CSharp.dll</HintPath>
+      <Reference Include="0Harmony">
+        <HintPath>C:\Users\guy12\OneDrive\מסמכים\Custom Weapons\MeatKit-main-pleasework\Assets\MeatKit\Managed\0Harmony.dll</HintPath>
       </Reference>
+      <Reference Include="Assembly-CSharp">
+        <HintPath>C:\Games\Steam\steamapps\common\H3VR\h3vr_Data\Managed\Assembly-CSharp.dll</HintPath>
+      </Reference>
+      <Reference Include="Assembly-CSharp-firstpass">
+        <HintPath>C:\Games\Steam\steamapps\common\H3VR\h3vr_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      </Reference>
+      <Reference Include="MMHOOK_Assembly-CSharp">
+        <HintPath>C:\Users\guy12\AppData\Roaming\r2modmanPlus-local\H3VR\profiles\Default\BepInEx\plugins\MMHOOK\MMHOOK_Assembly-CSharp.dll</HintPath>
+      </Reference>
+      <Reference Include="MMHOOK_Assembly-CSharp-firstpass">
+        <HintPath>C:\Users\guy12\AppData\Roaming\r2modmanPlus-local\H3VR\profiles\Default\BepInEx\plugins\MMHOOK\MMHOOK_Assembly-CSharp-firstpass.dll</HintPath>
+      </Reference>
+      <Reference Include="ModularWorkshop">
+        <HintPath>..\..\MeatKit-main-pleasework\cityscripts\ModularWorkshop.dll</HintPath>
+      </Reference>
+      <Reference Include="OpenScripts2">
+        <HintPath>C:\Users\guy12\AppData\Roaming\r2modmanPlus-local\H3VR\profiles\Default\BepInEx\plugins\cityrobo-OpenScripts2\OpenScripts2.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine">
+        <HintPath>C:\Games\Steam\steamapps\common\H3VR\h3vr_Data\Managed\UnityEngine.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.UI">
+        <HintPath>C:\Games\Steam\steamapps\common\H3VR\h3vr_Data\Managed\UnityEngine.UI.dll</HintPath>
+      </Reference>
+      <Reference Include="Valve.Newtonsoft.Json">
+        <HintPath>C:\Games\Steam\steamapps\common\H3VR\h3vr_Data\Managed\Valve.Newtonsoft.Json.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="src\MuzzleLoaderRedux\Flintlock\" />
     </ItemGroup>
 
     <!-- When in debug mode, also build mono debugging symbols (Only available on Windows) -->

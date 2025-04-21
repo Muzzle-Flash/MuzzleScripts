@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace MuzzleScripts
 {
+    
     public class BreakActionSafetySwitch : MonoBehaviour
     {
         public BreakActionWeapon BreakAction;

@@ -5,9 +5,9 @@ using BepInEx.Logging;
 namespace MuzzleScripts
 {
     // TODO: Change 'YourPlugin' to the name of your plugin
-    [BepInAutoPlugin]
+    [BepInPlugin("h3vr.MuzzleScripts", "MuzzleScripts", "2.0.0")]
     [BepInProcess("h3vr.exe")]
-    public partial class MuzzleScripts : BaseUnityPlugin
+    public partial class MuzzleScripts_BepInExPlugin : BaseUnityPlugin
     {
         /* == Quick Start == 
          * Your plugin class is a Unity MonoBehaviour that gets added to a global game object when the game starts.
@@ -26,7 +26,7 @@ namespace MuzzleScripts
             Logger = base.Logger;
             
             // Your plugin's ID, Name, and Version are available here.
-            Logger.LogMessage($"Hello, world! Sent from {Id} {Name} {Version}");
+            Logger.LogMessage($"Hello, world! Sent from h3vr.MuzzleScripts, MuzzleScripts, 2.0.0");
         }
         
         // The line below allows access to your plugin's logger from anywhere in your code, including outside of this file.

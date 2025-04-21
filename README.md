@@ -1,28 +1,25 @@
-# H3VR BepInEx Plugin Template
-A new, simpler, and easy to use template for making BepInEx plugins for H3VR.
+# MuzzleScripts2
+A collection of scripts for my own mods! Refactored into a single DLL.
+Seeing as I cannot update MuzzleScripts due to a lost discord account, this will have to do lmao.
+All of my old mods will use MuzzleScripts, all of my new mods will use this. If something old breaks, RIP.
 
-## Using this template
-1. Get a copy of this project. 
-   - If you intend to publish your plugin on GitHub, use the green 'Use this template' button on the repository page, then clone that new repository.
-   - Otherwise click the 'Code' button and download as zip, then extract.
-2. Open the `plugin/plugin.csproj` file in a C# IDE such as Visual Studio, Rider, or Visual Studio Code.
-3. In the files `plugin/plugin.csproj` and `plugin/src/Plugin.cs` locate the TODO comments (there should be 3 total) and use them to change the name, author, and version of your plugin.
-4. Do a build of the project and you're ready to start writing some code.
+## Included:
+* AttachableFlintlockWeapon - Allows for the creation of attachable flintlock weapons. WIP and nonfunctional at the moment.
+* BreakActionPercussionNipple - Allows for the creation of break action firearms that require a percussion cap. Just add onto an existing break action script and fill the appropriate fields.
+* BreakActionSafetySwitch - Allows for the creation of break action firearms with a safety switch. Just add onto an existing break action script and fill the appropriate fields.
+* LeverActionManualHammer - Allows for the creation of lever action firearms with a manually actuated hammer. Just add onto an existing lever action script and fill the appropriate fields.
+* RepeatingFlintlockBarrels - Allows for the creation of flintlock weapons with a moving barrel cluster. Just add onto an existing flintlock weapon script and fill the appropriate fields.
+* SingleActionRevolverRingTrigger - Allows for the creation of single action revolvers with a secondary ring trigger that cocks the hammer and advances the cylinder, while preventing cocking the hammer manually from advancing the cylinder. Just add onto an existing single action revolver script and fill the appropriate fields.
+* UniversalSecondaryFirearmFrame - Allows for the creation of a universal object that can control all attachable weapons that are attached to it from a single place. Features three firing modes.
+* USFFCycleDelaySelector - Separate interactable object that allows the user to cycle between different Cycle Delays for the Universal Secondary Firearm Frame, changing the rate at which the frame cycles between weapons.
+Included is a .zip file with the editor DLL for mod makers.
 
-## Using your plugin
-1. After a successful build, your plugin should be output to `plugin/bin/[Debug|Release]/net35/your_name.mod_name.dll`.
-2. Copy this dll to your r2mm profile's `BepInEx/plugins` folder and it should load!
-3. When building in Debug mode, a `your_name.mod_name.dll.mdb` file will also be generated in the output folder. Copy this into your plugins folder as well for additional debugging details such as filenames and line numbers in stack traces.
+## Changelog
+* 1.2.0 - Updated Universal UniversalSecondaryFirearmFrame script to enable more flexibility. Specifically, the RapidCycle fire mode was separated into a secondary optional toggle switch. Additionally, a separate script for an interactable cycle delay switch was added.
+* 1.1.0 - Updated UniversalSecondaryFirearmFrame script to have more adaptable system for firing modes, as well as a mode that rapidly cycles through and fires each attached weapon while the trigger is held.
+* 1.0.0 - Initial release.
 
-## Including extra files
-If you need to include additional files with your plugin (for example, an asset bundle) you can add the file to your project and open the properties dialog to change the 'Copy to output directory' option to 'Copy if newer'. It will then be included in your builds, however do note that when r2mm/TMM goes to install your mod it will flatten the file structure of your mod. This means that any files in a subfolder will be moved beside your plugin's dll, so watch out for that when loading the extra files.
+## Support My Work:
+If you so wish, you can support my modding work by buying me a coffee!
 
-## Sharing / Uploading to Thunderstore
-This template comes with a build script that automatically makes a thunderstore package file that you can easily upload. Before uploading you will want to modify / replace the following files with your own:
-
-* `README.md`: this file, this is the long description of your mod.
-* `icon.png`: the icon for your mod on TS. Must be 256x256.
-* `LICENSE`: you may remove this file if you don't need a license, or replace with your own license.
-* `manifest.json`: most of the stuff here is filled out during a build but if you have additional dependencies on other Thunderstore mods you will place them here.
-
-With these files modified / replaced, do another build and your Thunderstore package will be output to `plugin/bin/[Debug|Release]/net32/your_name.mod_name.zip`. This file can be uploaded straight to Thunderstore or imported as a local mod in r2mm/TMM.
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/K3K84MKAS)

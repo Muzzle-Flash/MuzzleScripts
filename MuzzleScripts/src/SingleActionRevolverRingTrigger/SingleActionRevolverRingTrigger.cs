@@ -42,7 +42,8 @@ namespace MuzzleScripts
 #endif
 		}
 
-        private void SingleActionRevolver_UpdateTriggerHammer(On.FistVR.SingleActionRevolver.orig_UpdateTriggerHammer orig, SingleActionRevolver self)
+#if !DEBUG
+		private void SingleActionRevolver_UpdateTriggerHammer(On.FistVR.SingleActionRevolver.orig_UpdateTriggerHammer orig, SingleActionRevolver self)
         {
             if (self == Revolver)
             {
@@ -124,7 +125,7 @@ namespace MuzzleScripts
 				orig(self);
             }
         }
-
+#endif
 #if !DEBUG
         private void SingleActionRevolver_UpdateInteraction(On.FistVR.SingleActionRevolver.orig_UpdateInteraction orig, SingleActionRevolver self, FVRViveHand hand)
         {

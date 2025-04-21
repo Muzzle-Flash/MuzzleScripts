@@ -1,10 +1,13 @@
 {
-    "name": "{{NAME}}",
-    "author": "{{AUTHOR}}",
-    "version_number": "{{VERSION}}",
-    "description": "{{DESCRIPTION}}",
-    "website_url": "{{URL}}",
-    "dependencies": [
-        "BepInEx-BepInExPack_H3VR-5.4.1700"
-    ]
+  "name": "MuzzleScripts2",
+  "author": "Muzzle",
+  "version_number": "1.2.0",
+  "website_url": "",
+  "description": "A collection of scripts for my own mods! Refactored into a single DLL",
+  "dependencies": [
+    "BepInEx-BepInExPack_H3VR-5.4.1700",
+    "nrgill28-HookGenPatcher_H3VR-1.2.3",
+    "nrgill28-Sodalite-1.4.0",
+    "Muzzle-MuzzleScripts-1.0.5"
+  ]
 }

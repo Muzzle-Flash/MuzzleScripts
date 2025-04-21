@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\MuzzleScripts"
   ],
-  "SelectedNode": "\\MuzzleScripts.sln",
+  "SelectedNode": "\\MuzzleScripts\\MuzzleScripts - Copy.csproj",
   "PreviewInSolutionExplorer": false
 }
