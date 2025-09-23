@@ -12,9 +12,14 @@ All of my old mods will use MuzzleScripts, all of my new mods will use this. If 
 * SingleActionRevolverRingTrigger - Allows for the creation of single action revolvers with a secondary ring trigger that cocks the hammer and advances the cylinder, while preventing cocking the hammer manually from advancing the cylinder. Just add onto an existing single action revolver script and fill the appropriate fields.
 * UniversalSecondaryFirearmFrame - Allows for the creation of a universal object that can control all attachable weapons that are attached to it from a single place. Features three firing modes.
 * USFFCycleDelaySelector - Separate interactable object that allows the user to cycle between different Cycle Delays for the Universal Secondary Firearm Frame, changing the rate at which the frame cycles between weapons.
+* WeaponDegredationSystem - Allows for the creation of firearms that fall apart after a specified number of shots with special interaction options for Bolt Action firearms and Pump Action firearms.
 Included is a .zip file with the editor DLL for mod makers.
+* LaserWeapon suite - Allows for the creation of Laser Weapons similar to Anton's Laser Pistol, but without the hardcoding. Includes Modular variant. WIP but functional.
+* RevolverSecondaryBarrel suite - Allows for the creation of a Revolver with a secondary single shot barrel. WIP but functional.
 
 ## Changelog
+* 1.4.0 - Added LaserWeapon script suite, including a Modular Workshop compatible variant and an Energy Level Indicator. Additionally, added RevolverSecondaryBarrel script suite.
+* 1.3.0 - Added Weapon Degredation System script.
 * 1.2.0 - Updated Universal UniversalSecondaryFirearmFrame script to enable more flexibility. Specifically, the RapidCycle fire mode was separated into a secondary optional toggle switch. Additionally, a separate script for an interactable cycle delay switch was added.
 * 1.1.0 - Updated UniversalSecondaryFirearmFrame script to have more adaptable system for firing modes, as well as a mode that rapidly cycles through and fires each attached weapon while the trigger is held.
 * 1.0.0 - Initial release.

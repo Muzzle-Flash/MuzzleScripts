@@ -21,6 +21,7 @@
         <Optimize>true</Optimize>
         <DebugSymbols>false</DebugSymbols>
         <DebugType>None</DebugType>
+        <SignAssembly>False</SignAssembly>
     </PropertyGroup>
 
     <!-- Debug configuration overrides -->
@@ -39,7 +40,7 @@
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
 
-        <!-- Automatically generates a BepInEx plugin from the values at the top of this file -->
+        <!-- Automatically generates a BepInEx plugin from the values at the top of self file -->
         <PackageReference Include="BepInEx.AutoPlugin" Version="1.1.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -64,11 +65,8 @@
       <Reference Include="MMHOOK_Assembly-CSharp">
         <HintPath>C:\Users\guy12\AppData\Roaming\r2modmanPlus-local\H3VR\profiles\Default\BepInEx\plugins\MMHOOK\MMHOOK_Assembly-CSharp.dll</HintPath>
       </Reference>
-      <Reference Include="MMHOOK_Assembly-CSharp-firstpass">
-        <HintPath>C:\Users\guy12\AppData\Roaming\r2modmanPlus-local\H3VR\profiles\Default\BepInEx\plugins\MMHOOK\MMHOOK_Assembly-CSharp-firstpass.dll</HintPath>
-      </Reference>
       <Reference Include="ModularWorkshop">
-        <HintPath>..\..\MeatKit-main-pleasework\cityscripts\ModularWorkshop.dll</HintPath>
+        <HintPath>C:\Users\guy12\AppData\Roaming\r2modmanPlus-local\H3VR\profiles\Default\BepInEx\plugins\cityrobo-ModularWorkshop\ModularWorkshop.dll</HintPath>
       </Reference>
       <Reference Include="OpenScripts2">
         <HintPath>C:\Users\guy12\AppData\Roaming\r2modmanPlus-local\H3VR\profiles\Default\BepInEx\plugins\cityrobo-OpenScripts2\OpenScripts2.dll</HintPath>
