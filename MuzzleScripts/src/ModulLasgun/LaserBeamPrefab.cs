@@ -14,6 +14,10 @@ namespace MuzzleScripts
         public LineRenderer LineRenderer;
         [Tooltip("The GameObject to be spawned whenever the laser collides with something.")]
         public GameObject ImpactPointPrefab;
+        [Tooltip("The color used to indicate this beam type.")]
+        public Color IndicatorColor = new Color(1f, 0.13f, 0f, 1f);
+        [Tooltip("The name used to indicate this beam type.")]
+        public String IndicatorText;
 
         [Header("Damage Config")]
         [Tooltip("Amount of Kinetic Damage dealt on impact, modified by power level.")]

@@ -9,22 +9,35 @@ namespace MuzzleScripts
 {
     public class BetterFlintlockBarrel : FlintlockBarrel
     {
-        private List<Renderer> _origProxyRends0;
-        private List<Renderer> _origProxyRends1;
+        private List<Mesh> _origProxyMeshes0 = new List<Mesh>();
+        private List<Material> _origProxyMaterials0 = new List<Material>();
+        private List<Mesh> _origProxyMeshes1 = new List<Mesh>();
+        private List<Material> _origProxyMaterials1 = new List<Material>();
 
         [Serializable]
         public class NewLoadedElement : FlintlockBarrel.LoadedElement
         {
             public GameObject ProjectilePrefab;
+            public float Length;
+            public bool IsLooseShot;
+            public int MaximumAmount;
             public Mesh LE_Mesh;
             public Material LE_Material;
-            public GameObject LE_SelfPrefab;
+            public FVRObject LE_ObjectWrapper;
         }
         public new void Awake()
         {
             base.Awake();
-            this._origProxyRends0 = (from r in this.ProxyRends0 where r != null select r).ToList<Renderer>();
-            this._origProxyRends1 = (from r in this.ProxyRends1 where r != null select r).ToList<Renderer>();
+            foreach (Renderer rend in this.ProxyRends0)
+            {
+                this._origProxyMeshes0.Add(rend.GetComponent<MeshFilter>().mesh);
+                this._origProxyMaterials0.Add(rend.material);
+            }
+            foreach (Renderer rend in this.ProxyRends1)
+            {
+                this._origProxyMeshes1.Add(rend.GetComponent<MeshFilter>().mesh);
+                this._origProxyMaterials1.Add(rend.material);
+            }
         }
         private new void Update()
         {
@@ -50,21 +63,74 @@ namespace MuzzleScripts
                 this.BarrelContentsDraw();
             }
         }
+        private NewLoadedElement CreateNewLoadedElement(MuzzleLoadedElement element)
+        {
+            NewLoadedElement loadedElement = new NewLoadedElement();
+            loadedElement.Type = FlintlockBarrel.LoadedElementType.Shot;
+            loadedElement.Position = 0f;
+            loadedElement.Length = element.Length;
+            loadedElement.IsLooseShot = element.IsLooseShot;
+            if (loadedElement.IsLooseShot)
+            {
+                loadedElement.PowderAmount = element.Amount;
+            }
+            else
+            {
+                loadedElement.PowderAmount = 1;
+            }
+            loadedElement.LE_Mesh = element.Meshes[0];
+            loadedElement.LE_Material = element.Material;
+            loadedElement.ProjectilePrefab = element.ProjectilePrefab;
+            return loadedElement;
+        }
         private void InsertElement(MuzzleLoadedObject loadedObject)
         {
             MuzzleLoadedElement element = loadedObject.Element;
             if (element == null) return;
-            BetterFlintlockBarrel.NewLoadedElement loadedElement = new BetterFlintlockBarrel.NewLoadedElement();
-            loadedElement.Type = FlintlockBarrel.LoadedElementType.Shot;
-            loadedElement.Position = 0f;
-            loadedElement.PowderAmount = 1;
-            loadedElement.LE_Mesh = element.Meshes[0];
-            loadedElement.LE_Material = element.Material;
-            loadedElement.ProjectilePrefab = element.ProjectilePrefab;
-            loadedElement.LE_SelfPrefab = loadedObject.ObjectWrapper.GetGameObject();
-            this.LoadedElements.Add(loadedElement);
+            NewLoadedElement loadedElement;
+            if (this.LoadedElements.Count > 0)
+            {
+                if (element.IsLooseShot)
+                {
+                    NewLoadedElement lastNewLoadedElement = this.LoadedElements[this.LoadedElements.Count - 1] as NewLoadedElement;
+                    if (lastNewLoadedElement != null && lastNewLoadedElement.IsLooseShot)
+                    {
+                        if ((element.Amount + lastNewLoadedElement.PowderAmount) <= lastNewLoadedElement.MaximumAmount)
+                        {
+                            this.LoadedElements[this.LoadedElements.Count - 1].PowderAmount += element.Amount;
+                        }
+                        else
+                        {
+                            loadedElement = this.CreateNewLoadedElement(element);
+                            loadedElement.LE_ObjectWrapper = loadedObject.ObjectWrapper;
+                            this.LoadedElements.Add(loadedElement);
+                        }
+                    }
+                    else
+                    {
+                        loadedElement = this.CreateNewLoadedElement(element);
+                        loadedElement.LE_ObjectWrapper = loadedObject.ObjectWrapper;
+                        this.LoadedElements.Add(loadedElement);
+                    }
+                }
+                else
+                {
+                    loadedElement = this.CreateNewLoadedElement(element);
+                    loadedElement.LE_ObjectWrapper = loadedObject.ObjectWrapper;
+                    this.LoadedElements.Add(loadedElement);
+                }
+            }
+            else
+            {
+                loadedElement = this.CreateNewLoadedElement(element);
+                loadedElement.LE_ObjectWrapper = loadedObject.ObjectWrapper;
+                this.LoadedElements.Add(loadedElement);
+            }
         }
-
+        private bool CanElementFit(MuzzleLoadedElement element)
+        {
+            return this.LoadedElements.Count == 0 || this.LoadedElements[this.LoadedElements.Count - 1].Position > element.Length * element.Amount;
+        }
         public new void OnTriggerEnter(Collider other)
         {
             if (other.attachedRigidbody == null) return;
@@ -74,19 +140,19 @@ namespace MuzzleScripts
             MuzzleLoadedObject muzzleLoadedObject = gameObject.GetComponent<MuzzleLoadedObject>();
             if (gameObject.CompareTag("flintlock_shot"))
             {
-                if (!this.CanElementFit(FlintlockBarrel.LoadedElementType.Shot)) return;
-                if (this.m_weapon.RamRod.gameObject.activeSelf && this.m_weapon.RamRod.RState == FlintlockPseudoRamRod.RamRodState.Barrel && this.m_weapon.RamRod.GetCurBarrel() == this) return;
                 if (this.IsBarrelPlugged()) return;
-
-                this.m_weapon.PlayAudioAsHandling(this.AudEvent_InsertByType[1], this.Muzzle.position);
-                if (muzzleLoadedObject != null && muzzleLoadedObject.Element != null)
+                if (this.m_weapon.RamRod.gameObject.activeSelf && this.m_weapon.RamRod.RState == FlintlockPseudoRamRod.RamRodState.Barrel && this.m_weapon.RamRod.GetCurBarrel() == this) return;
+                if (muzzleLoadedObject == null)
                 {
-                    if (muzzleLoadedObject.Element.Type != MuzzleLoadedElement.MuzzleLoadedElementType.Ball) return;
-                    this.InsertElement(muzzleLoadedObject);
+                    if (!this.CanElementFit(LoadedElementType.Shot)) return;
+                    this.m_weapon.PlayAudioAsHandling(this.AudEvent_InsertByType[1], this.Muzzle.position);
+                    this.InsertElement(LoadedElementType.Shot);
                 }
-                else
+                else if (muzzleLoadedObject.Element != null)
                 {
-                    this.InsertElement(FlintlockBarrel.LoadedElementType.Shot);
+                    if (!this.CanElementFit(muzzleLoadedObject.Element)) return;
+                    this.m_weapon.PlayAudioAsHandling(this.AudEvent_InsertByType[1], this.Muzzle.position);
+                    this.InsertElement(muzzleLoadedObject);
                 }
                 UnityEngine.Object.Destroy(other.gameObject);
             }
@@ -291,13 +357,15 @@ namespace MuzzleScripts
                                 BetterFlintlockBarrel.NewLoadedElement newLoadedElement = this.LoadedElements[index] as BetterFlintlockBarrel.NewLoadedElement;
                                 if (newLoadedElement != null)
                                 {
+                                    Debug.Log("custom mesh and material");
                                     this.ProxyRends0[i].material = newLoadedElement.LE_Material;
                                     this.ProxyRends0[i].GetComponent<MeshFilter>().mesh = newLoadedElement.LE_Mesh;
                                 }
-                                else
+                                else if (newLoadedElement == null)
                                 {
-                                    this.ProxyRends0[i].material = this._origProxyRends0[i].material;
-                                    this.ProxyRends0[i].GetComponent<MeshFilter>().mesh = this._origProxyRends0[i].GetComponent<MeshFilter>().mesh;
+                                    Debug.Log("default mesh and material");
+                                    this.ProxyRends0[i].material = this._origProxyMaterials0[i];
+                                    this.ProxyRends0[i].GetComponent<MeshFilter>().mesh = this._origProxyMeshes0[i];
                                 }
                                 this.ProxyRends0[i].transform.position = this.LodgePoint_Shot.position;
                             }
@@ -385,8 +453,8 @@ namespace MuzzleScripts
                                 }
                                 else
                                 {
-                                    this.ProxyRends0[k].material = this._origProxyRends0[k].material;
-                                    this.ProxyRends0[k].GetComponent<MeshFilter>().mesh = this._origProxyRends0[k].GetComponent<MeshFilter>().mesh;
+                                    this.ProxyRends0[k].material = this._origProxyMaterials0[k];
+                                    this.ProxyRends0[k].GetComponent<MeshFilter>().mesh = this._origProxyMeshes0[k];
                                 }
                                 this.ProxyRends0[k].transform.position = this.LodgePoint_Shot.position;
                             }
@@ -445,7 +513,7 @@ namespace MuzzleScripts
             if (type != FlintlockBarrel.LoadedElementType.Powder)
             {
                 Vector3 position = this.Muzzle.position + this.Muzzle.forward * this.GetLengthOfElement(type, PowderAmount) * 0.75f;
-                UnityEngine.Object.Instantiate<GameObject>(loadedElement.LE_SelfPrefab, position, this.Muzzle.rotation);
+                UnityEngine.Object.Instantiate<GameObject>(loadedElement.LE_ObjectWrapper.GetGameObject(), position, this.Muzzle.rotation);
                 return 0;
             }
             int result = PowderAmount - 1;

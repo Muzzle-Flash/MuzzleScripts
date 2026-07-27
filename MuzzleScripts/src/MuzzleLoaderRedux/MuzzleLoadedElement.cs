@@ -12,7 +12,10 @@ namespace MuzzleScripts
     {
         public MuzzleLoadedElementType Type;
         public float Position;
-        public int Amount;
+        public float Length;
+        public bool IsLooseShot;
+        public int Amount = 1;
+        public int MaximumAmount = 1;
         public List<Mesh> Meshes = new List<Mesh>();
         public Material Material;
         public GameObject ProjectilePrefab;

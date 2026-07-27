@@ -14,10 +14,12 @@ All of my old mods will use MuzzleScripts, all of my new mods will use this. If 
 * USFFCycleDelaySelector - Separate interactable object that allows the user to cycle between different Cycle Delays for the Universal Secondary Firearm Frame, changing the rate at which the frame cycles between weapons.
 * WeaponDegredationSystem - Allows for the creation of firearms that fall apart after a specified number of shots with special interaction options for Bolt Action firearms and Pump Action firearms.
 Included is a .zip file with the editor DLL for mod makers.
-* LaserWeapon suite - Allows for the creation of Laser Weapons similar to Anton's Laser Pistol, but without the hardcoding. Includes Modular variant. WIP but functional.
-* RevolverSecondaryBarrel suite - Allows for the creation of a Revolver with a secondary single shot barrel. WIP but functional.
+* LaserWeapon suite - Allows for the creation of Laser Weapons similar to Anton's Laser Pistol, but without the hardcoding. Includes Modular variant.
+* RevolverSecondaryBarrel suite - Allows for the creation of a Revolver with a secondary single shot barrel.
 
 ## Changelog
+* 1.4.2 - Fixed an error where Laser Weapons that do not use heatsinks will repeatedly engage and disengage.
+* 1.4.1 - Added a Laser Type Indicator to the LaserWeapon Suite.
 * 1.4.0 - Added LaserWeapon script suite, including a Modular Workshop compatible variant and an Energy Level Indicator. Additionally, added RevolverSecondaryBarrel script suite.
 * 1.3.0 - Added Weapon Degredation System script.
 * 1.2.0 - Updated Universal UniversalSecondaryFirearmFrame script to enable more flexibility. Specifically, the RapidCycle fire mode was separated into a secondary optional toggle switch. Additionally, a separate script for an interactable cycle delay switch was added.

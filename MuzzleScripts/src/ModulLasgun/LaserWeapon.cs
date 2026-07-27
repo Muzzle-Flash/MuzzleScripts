@@ -504,7 +504,7 @@ namespace MuzzleScripts
                     this.TryToDisengageBeam();
                     return;
                 }
-                if (this.Heatsink == null)
+                if (this.Heatsink == null && this.HasHeatsink)
                 {
                     this.TryToDisengageBeam();
                     return;
@@ -927,9 +927,9 @@ namespace MuzzleScripts
         private void TryToEngageBeam()
         {
             if (this.m_isBeamEngaged) return;
-            this.PSys_Engage.gameObject.transform.SetParent(this.GetMuzzle().transform, false);
-            this.PSys_Disengage.gameObject.transform.SetParent(this.GetMuzzle().transform, false);
-            this.AudSource_B.gameObject.transform.SetParent(this.GetMuzzle().transform, false);
+            this.PSys_Engage.gameObject.transform.SetParent(this.GetMuzzle().transform, true);
+            this.PSys_Disengage.gameObject.transform.SetParent(this.GetMuzzle().transform, true);
+            this.AudSource_B.gameObject.transform.SetParent(this.GetMuzzle().transform, true);
             if (this.CanOverheat && this.m_isOverheated)
             {
                 if (!this.m_hasErrored)
@@ -996,9 +996,9 @@ namespace MuzzleScripts
         {
             if (this.m_isBeamEngaged)
             {
-                this.PSys_Engage.gameObject.transform.SetParent(this.GetMuzzle().transform, false);
-                this.PSys_Disengage.gameObject.transform.SetParent(this.GetMuzzle().transform, false);
-                this.AudSource_B.gameObject.transform.SetParent(this.GetMuzzle().transform, false);
+                this.PSys_Engage.gameObject.transform.SetParent(this.GetMuzzle().transform, true);
+                this.PSys_Disengage.gameObject.transform.SetParent(this.GetMuzzle().transform, true);
+                this.AudSource_B.gameObject.transform.SetParent(this.GetMuzzle().transform, true);
                 this.m_isBeamEngaged = false;
                 this.m_energyConsumed = 0;
                 this.AudSource_B.Stop();
