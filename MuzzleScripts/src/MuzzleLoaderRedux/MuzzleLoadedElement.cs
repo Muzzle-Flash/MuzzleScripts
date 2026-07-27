@@ -13,22 +13,34 @@ namespace MuzzleScripts
         public MuzzleLoadedElementType Type;
         public float Position;
         public float Length;
-        public bool IsLooseShot;
         public int Amount = 1;
         public int MaximumAmount = 1;
-        public List<Mesh> Meshes = new List<Mesh>();
+        public List<MeshRenderer> MesheRenderers = new List<MeshRenderer>();
         public Material Material;
         public GameObject ProjectilePrefab;
-        public GameObject SelfPrefab;
-        private GameObject _proxyGameObject;
-        private MeshRenderer _proxyMeshRenderer;
-
+        public FVRObject ObjectWrapper;
         public enum MuzzleLoadedElementType
         {
             Powder,
             Ball,
             Shot,
             Wadding
+        }
+        public MuzzleLoadedElement(MuzzleLoadedElement muzzleLoadedElement)
+        {
+            this.Type = muzzleLoadedElement.Type;
+            Position = muzzleLoadedElement.Position;
+            Length = muzzleLoadedElement.Length;
+            Amount = muzzleLoadedElement.Amount;
+            MaximumAmount = muzzleLoadedElement.MaximumAmount;
+            MesheRenderers = new List<MeshRenderer>();
+            foreach (MeshRenderer renderer in muzzleLoadedElement.MesheRenderers)
+            {
+                MesheRenderers.Add(renderer);
+            }
+            Material = muzzleLoadedElement.Material;
+            ProjectilePrefab = muzzleLoadedElement.ProjectilePrefab;
+            ObjectWrapper = muzzleLoadedElement.ObjectWrapper;
         }
     }
 }

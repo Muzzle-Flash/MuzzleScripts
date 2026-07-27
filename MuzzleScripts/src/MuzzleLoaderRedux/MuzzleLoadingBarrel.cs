@@ -9,89 +9,72 @@ namespace MuzzleScripts
 {
     public class MuzzleLoadingBarrel : MonoBehaviour
     {
+        public Transform Muzzle;
         public MuzzleLoadingIgnitionSource IgnitionSource;
-
-        [HideInInspector]
-        public List<MuzzleLoadedElement> LoadedElements = new List<MuzzleLoadedElement>();
-        public List<GameObject> DisplayProxies = new List<GameObject>();
-
-        private static readonly Dictionary<MuzzleLoadedElement, MuzzleLoadingBarrel> _existingMuzzleLoadedElements = new Dictionary<MuzzleLoadedElement, MuzzleLoadingBarrel>();
+        public MuzzleLoadedElement BallDefault;
+        private List<MuzzleLoadedElement> m_loadedElements = new List<MuzzleLoadedElement>();
         public MuzzleLoadedElement GetLastLoadedElement()
         {
-            if (this.LoadedElements.Count > 0)
-            {
-                return this.LoadedElements[this.LoadedElements.Count - 1];
-            }
-            else
-            {
-                return null;
-            }
+            if (m_loadedElements.Count == 0) return null;
+            return m_loadedElements[m_loadedElements.Count - 1];
         }
-        public void AddElement(MuzzleLoadedObject loadedObject)
+        private bool CanElementFit(MuzzleLoadedElement element)
         {
-            MuzzleLoadedElement loadedElement = loadedObject.Element;
-            if (loadedElement == null) return;
-            if (this.LoadedElements.Count > 0)
-            {
-                if ((loadedElement.Type == MuzzleLoadedElement.MuzzleLoadedElementType.Powder || loadedElement.Type == MuzzleLoadedElement.MuzzleLoadedElementType.Shot) && loadedElement.Type == this.GetLastLoadedElement().Type)
-                {
-                    this.GetLastLoadedElement().Amount += loadedElement.Amount;
-                }
-                else
-                {
-                    MuzzleLoadedElement element = new MuzzleLoadedElement();
-                    element.Type = loadedElement.Type;
-                    element.Position = 0;
-                    element.Amount = loadedElement.Amount;
-                    element.Meshes = (from m in loadedElement.Meshes where m != null select m).ToList();
-                    element.Material = loadedElement.Material;
-                    this.LoadedElements.Add(element);
-                    GameObject elementProxy = new GameObject("Proxy", typeof(MeshRenderer), typeof(MeshFilter));
-                    this.DisplayProxies.Add(elementProxy);
-                }
-            }
-            else
-            {
-                MuzzleLoadedElement element = new MuzzleLoadedElement();
-                element.Type = loadedElement.Type;
-                element.Position = 0;
-                element.Amount = loadedElement.Amount;
-                foreach (Mesh mesh in loadedElement.Meshes)
-                {
-                    element.Meshes.Add(mesh);
-                }
-                element.Material = loadedElement.Material;
-                this.LoadedElements.Add(element);
-                GameObject elementProxy = new GameObject("Proxy", typeof(MeshRenderer), typeof(MeshFilter));
-                this.DisplayProxies.Add(elementProxy);
-            }
+            return this.m_loadedElements.Count == 0 || this.GetLastLoadedElement().Position > element.Length;
+        }
+        public void InsertElement(MuzzleLoadedElement element)
+        {
+            MuzzleLoadedElement newElement = new MuzzleLoadedElement(element);
+            m_loadedElements.Add(newElement);
         }
         public void OnTriggerEnter(Collider other)
         {
-            GameObject gameObject = other.gameObject;
-            if (gameObject == null) return;
-            MuzzleLoadedElement element = gameObject.GetComponent<MuzzleLoadedElement>();
-            if (element != null)
+            if (other.attachedRigidbody== null) return;
+            float muzzleAngle = Vector3.Angle(this.Muzzle.forward, Vector3.up);
+            if (muzzleAngle > 90f) return;
+            GameObject gameObject = other.attachedRigidbody.gameObject;
+            MuzzleLoadedObject muzzleLoadedObject = gameObject.GetComponent<MuzzleLoadedObject>();
+            MuzzleLoadedElement lastLoadedElement = this.GetLastLoadedElement();
+            if (muzzleLoadedObject != null)
             {
+                MuzzleLoadedElement element = muzzleLoadedObject.Element;
                 if (!this.CanElementFit(element)) return;
-
-                return;
+                switch (element.Type)
+                {
+                    case MuzzleLoadedElement.MuzzleLoadedElementType.Powder:
+                        if (lastLoadedElement.Type == MuzzleLoadedElement.MuzzleLoadedElementType.Powder && lastLoadedElement.Amount < lastLoadedElement.MaximumAmount)
+                        {
+                            int amountToAdd = Mathf.Min(element.Amount, (lastLoadedElement.Amount - lastLoadedElement.MaximumAmount));
+                            lastLoadedElement.Amount += amountToAdd;
+                            //destroy the powder object
+                        }
+                        else
+                        {
+                            //create new powder element
+                        }
+                        break;
+                    case MuzzleLoadedElement.MuzzleLoadedElementType.Ball:
+                        InsertElement(element);
+                        break;
+                    case MuzzleLoadedElement.MuzzleLoadedElementType.Shot:
+                        if(lastLoadedElement.Type==MuzzleLoadedElement.MuzzleLoadedElementType.Shot && lastLoadedElement.Amount < lastLoadedElement.MaximumAmount)
+                        {
+                            int amountToAdd = Mathf.Min(element.Amount, (lastLoadedElement.Amount - lastLoadedElement.MaximumAmount));
+                            lastLoadedElement.Amount += amountToAdd;
+                            //destroy the shot object
+                        }
+                        else
+                        {
+                            //create new shot element
+                        }
+                        break;
+                    case MuzzleLoadedElement.MuzzleLoadedElementType.Wadding:
+                        InsertElement(element);
+                        break;
+                    default:
+                        break;
+                }
             }
-            MuzzleLoadingProxyRamRod ramrod = gameObject.GetComponent<MuzzleLoadingProxyRamRod>();
-            if (ramrod != null)
-            {
-                return;
-            }
-        }
-
-        private bool CanElementFit(MuzzleLoadedElement element)
-        {
-            return this.LoadedElements.Count == 0 || this.GetLastLoadedElement().Position > this.GetLengthOfElement(element);
-        }
-
-        private float GetLengthOfElement(MuzzleLoadedElement element)
-        {
-            throw new NotImplementedException();
         }
     }
 }
