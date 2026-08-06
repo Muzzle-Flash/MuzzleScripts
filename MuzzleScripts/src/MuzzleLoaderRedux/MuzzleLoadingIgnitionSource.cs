@@ -9,6 +9,7 @@ namespace MuzzleScripts
 {
     public class MuzzleLoadingIgnitionSource : MonoBehaviour
     {
+        public MuzzleLoadingWeapon weapon;
 
     }
 }
